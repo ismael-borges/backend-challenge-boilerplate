@@ -195,7 +195,7 @@
                                     </tr>
                                     <tr>
                                         <td valign="top" align="center">
-                                            <a href="#" target="_blank" style="font-family: math; background-color: #15392A; padding: 25px; border-radius: 40px; text-decoration: none; color: white;">
+                                            <a href="{{ route("generateInvoice", ["id" => $content->id]) }}" target="_blank" style="font-family: math; background-color: #15392A; padding: 25px; border-radius: 40px; text-decoration: none; color: white;">
                                                 CLIQUE AQUI PARA BAIXAR A FATURA
                                             </a>
                                         </td>
@@ -294,12 +294,12 @@
                                                                                         olho</font>, confirme o nome do
                                                                                     beneficiário como <strong>BOILERPLATE COMPANIE -
                                                                                         CNPJ:
-                                                                                        20.880.641/0001-95</strong>
+                                                                                        41.702.844/0001-61</strong>
                                                                                     <br><br>
                                                                                     Quando o beneficiário for divergente
                                                                                     de <strong>BOILERPLATE COMPANIE -
                                                                                         CNPJ:
-                                                                                        20.880.641/0001-95</strong>,
+                                                                                        41.702.844/0001-61</strong>,
                                                                                     certifique-se, pode ocorrer uma
                                                                                     fraude.
                                                                                 </p>

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Traits\EncryptionPassphrase;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
@@ -10,7 +11,9 @@ use Illuminate\Queue\SerializesModels;
 
 class SendNotificationMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
+    use EncryptionPassphrase;
 
     public function __construct(
         private $content

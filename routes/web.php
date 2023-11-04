@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get("generateInvoice/{id}", [App\Http\Controllers\GenerateInvoiceController::class, "generateInvoice"])->name("generateInvoice");

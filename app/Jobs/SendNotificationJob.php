@@ -24,7 +24,7 @@ class SendNotificationJob implements ShouldQueue
             ->select(['id', 'name', 'email', 'debtAmount', 'debtID', 'debtDueDate'])
             ->where(['send_notification' => 0])
             ->orderBy('id')
-            ->chunk(1, static function($items) {
+            ->chunk(100, static function($items) {
                 collect($items)->each(static function ($row) {
                     $row->debtAmount = number_format($row->debtAmount, 2, ',', '.');
                     $row->debtDueDate = 'R$ '.date('d/m/Y', strtotime($row->debtDueDate));
