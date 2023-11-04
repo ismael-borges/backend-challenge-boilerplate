@@ -12,18 +12,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/import-file', function() {
-//    return view('formulario');
-
-    DB::table('payment_projections')->select(['id', 'name', 'email'])
-        ->where(['send_notification' => 0])
-        ->orderBy('id')
-        ->limit(10)
-        ->chunk(5, static function($items) {
-            dd($items);
-            collect($items)->each(static function ($row) {
-                dd($row);
-            });
-        });
+    return view('formulario');
 });
 
 Route::post('upload-file', [PaymentProjectionController::class, 'upload'])->name('upload-file');

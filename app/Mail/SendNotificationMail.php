@@ -12,7 +12,9 @@ class SendNotificationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct()
+    public function __construct(
+        private $content
+    )
     {}
 
     public function envelope(): Envelope
@@ -26,6 +28,7 @@ class SendNotificationMail extends Mailable
     {
         return new Content(
             view: 'mails.notification_invoice',
+            with: ['content' => $this->content]
         );
     }
 
