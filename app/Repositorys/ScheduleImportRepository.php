@@ -4,7 +4,7 @@ namespace App\Repositorys;
 
 use App\Models\ScheduleImport;
 
-class PaymentProjectionRepository
+class ScheduleImportRepository
 {
     public function import(string $path): void
     {

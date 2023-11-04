@@ -16,7 +16,6 @@ class PaymentProjection extends Model
         'debtAmount',
         'debtDueDate',
         'debtID',
-        'generate_invoice',
         'send_notification',
         'created_at',
         'updated_at'

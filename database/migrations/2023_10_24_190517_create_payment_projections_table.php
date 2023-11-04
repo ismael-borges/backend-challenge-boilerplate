@@ -16,7 +16,6 @@ return new class extends Migration
             $table->decimal('debtAmount');
             $table->date('debtDueDate');
             $table->string('debtID');
-            $table->boolean('generate_invoice')->default(0);
             $table->boolean('send_notification')->default(0);
             $table->timestamps();
         });

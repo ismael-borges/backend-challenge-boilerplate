@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositorys\PaymentProjectionRepository;
+use App\Repositorys\ScheduleImportRepository;
 use Illuminate\Http\Request;
 
-class PaymentProjectionController extends Controller
+class ScheduleImportController extends Controller
 {
     public function __construct(
-        private readonly PaymentProjectionRepository $repository
+        private readonly ScheduleImportRepository $repository
     )
     {}
 
@@ -18,6 +18,6 @@ class PaymentProjectionController extends Controller
             $path = $request->file('file')->store('sheets');
             $this->repository->import($path);
         }
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'Arquivo importado com sucesso.']);
     }
 }
