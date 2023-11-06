@@ -71,10 +71,10 @@
                                                 <tr>
                                                     <td align="center">
                                                         <p style="font-family:Arial,'sans-serif';font-size:16px;color:#001e64;line-height:1.48em;text-align:left">
-                                                            <strong>Prezado (a)</strong>, <strong style="color:#15392A">{{ $content->name }}</strong>
+                                                            <strong>Prezado (a)</strong>, <strong style="color:#15392A">{{ $name }}</strong>
                                                             <br><br>
                                                             Estamos enviando sua fatura <strong style="color:#15392A">do mês</strong> com vencimento para o dia <strong
-                                                                style="color:#15392A">{{ $content->debtDueDate }}</strong>. Ele também já está disponível em
+                                                                style="color:#15392A">{{ $debtDueDate }}</strong>. Ele também já está disponível em
                                                             nossos canais digitais.
                                                         </p>
                                                     </td>
@@ -131,7 +131,7 @@
                                                                                                 <strong>VENCIMENTO
                                                                                                     EM</strong>
                                                                                                 <br>
-                                                                                                {{ $content->debtDueDate }}
+                                                                                                {{ $debtDueDate }}
                                                                                             </p>
                                                                                         </td>
                                                                                     </tr>
@@ -152,7 +152,7 @@
                                                                                                 <strong>VALOR
                                                                                                     DE</strong>
                                                                                                 <br>
-                                                                                                {{ $content->debtAmount }}
+                                                                                                {{ $debtAmount }}
                                                                                             </p>
                                                                                         </td>
                                                                                     </tr>
@@ -195,7 +195,7 @@
                                     </tr>
                                     <tr>
                                         <td valign="top" align="center">
-                                            <a href="{{ route("generateInvoice", ["id" => $content->id]) }}" target="_blank" style="font-family: math; background-color: #15392A; padding: 25px; border-radius: 40px; text-decoration: none; color: white;">
+                                            <a href="{{ route("generateInvoice", ["id" => $id]) }}" target="_blank" style="font-family: math; background-color: #15392A; padding: 25px; border-radius: 40px; text-decoration: none; color: white;">
                                                 CLIQUE AQUI PARA BAIXAR A FATURA
                                             </a>
                                         </td>

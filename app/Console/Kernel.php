@@ -13,8 +13,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-//        $schedule->job(new SendNotificationJob)->everyFiveSeconds();
+        $schedule->job(new SendNotificationJob)->everyFiveMinutes();
         $schedule->command('import:csv')->everyTwoMinutes();
+        $schedule->command('queue:run')->everyThreeMinutes();
     }
 
     /**

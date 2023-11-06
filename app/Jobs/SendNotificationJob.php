@@ -23,6 +23,7 @@ class SendNotificationJob implements ShouldQueue
         DB::table('payment_projections')
             ->select(['id', 'name', 'email', 'debtAmount', 'debtID', 'debtDueDate'])
             ->where(['send_notification' => 0])
+            ->whereIn('id', [1,2,3])
             ->orderBy('id')
             ->chunkById(100, static function($items) {
                 collect($items)->each(static function ($row) {

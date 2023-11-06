@@ -3,19 +3,19 @@
 namespace App\Services;
 
 use App\Models\PaymentProjection;
+use App\Traits\EncryptionPassphrase;
 use Carbon\Carbon;
 
 class GenerateInvoiceServices
 {
+    use EncryptionPassphrase;
+
     private PaymentProjection $payer;
     private string $path = '';
 
     public function __construct()
     {
         $this->path = public_path('assets/images/invoices/logo-bb.png');
-
-        $identifier = request()->route('id');
-        $this->payer = PaymentProjection::find($identifier);
     }
 
     /**
@@ -23,6 +23,7 @@ class GenerateInvoiceServices
      */
     public function generateInvoice(): void
     {
+        $this->validatePaymaster();
         $recipient = $this->generateRecipient();
         $paymaster = $this->generatePaymaster();
 
@@ -81,5 +82,12 @@ class GenerateInvoiceServices
             'uf'        => 'SP',
             'cidade'    => 'Santa Bárbara Do Oeste',
         ]);
+    }
+
+    private function validatePaymaster(): void
+    {
+        $identifier = request()->route('id');
+        $id = $this->decrypt($identifier, config("app.passphrase"));
+        $this->payer = PaymentProjection::findOrFail($id);
     }
 }

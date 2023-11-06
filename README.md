@@ -7,60 +7,111 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## O projeto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este projeto é sobre um Sistema de Cobranças, que tem como objetivo importar arquivos .csv a partir de um formulário de uma aplicação frontend. Este documento fornece informações essenciais sobre o projeto, incluindo como configurar e executar o sistema, bem como detalhes sobre sua estrutura e funcionalidades.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Visão geral
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+O Sistema de Cobranças é uma aplicação que permite aos usuários importar arquivos CSV contendo informações de cobranças. A aplicação é composta por uma interface frontend, onde os usuários podem enviar arquivos CSV, e um backend que processa e armazena os dados das cobranças.
 
-## Learning Laravel
+## Funcionalidades
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Importação de arquivos CSV: Os usuários podem fazer upload de arquivos CSV contendo informações de cobranças.
+- Processamento de arquivos: O backend processa os arquivos CSV, valida os dados e armazena as informações das cobranças em um banco de dados.
+- Gera os boletos para cobrança: Para cada usuário o sistema gerar boletos de acordo com o perfil do mesmo.
+- Disparar mensagens para os e-mails: Os usuários recebem notificações sobre sua fatural do mês atual.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Requisitos do Sistema
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Certifique-se de que você tenha as seguintes tecnologias e ferramentas instaladas antes de iniciar o projeto:
 
-## Laravel Sponsors
+- Docker.
+- Composer: Gerenciador de dependências.
+- Um navegador da web moderno (por exemplo, Google Chrome, Firefox).
+- Git: Para controle de versão e clonagem do projeto.
+- (opcional) Um editor de código de sua escolha (por exemplo, Visual Studio Code).
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Configuração
 
-### Premium Partners
+1. Clone o projeto com o seguinte comando.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+git clone git@github.com:ismael-borges/backend-challenge-boilerplate.git
+```
 
-## Contributing
+2. Após clonar o projeto execute o seguinte comando para instalar as dependênciais.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+# executar na raiz do projeto
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php82-composer:latest \
+    composer install --ignore-platform-reqs
+```
 
-## Code of Conduct
+3. Copie o arquivo .env.example para o arquivo .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+# executar na raiz do projeto
+cp .ev.example .env
+```
 
-## Security Vulnerabilities
+## Rodando o projeto
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Execute o comando a seguir para subir os containers docker
 
-## License
+```bash
+sail up -d
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2. Após subir os containers execute o comando a seguir para criar as tabelas no banco de dados
+
+```bash
+sail artisan migrate
+```
+
+3. **(opcional)** Após criar as tabelas execute este comando para habilitar os agendamentos configurados
+
+```bash
+sail artisan schedule:work
+```
+### **Observações importante do projeto:**
+
+Os agendamentos foram criados para simular um ambiente real de produção onde os usuários iram importar um arquivo .csv e rotinas pré-definidas iram fazer todo o processo de importação.
+
+Para fim de averiguar a performance da importação foi criado o comando
+
+```bash
+sail artisan import:csv
+```
+Após finalizar a importação você pode ir na tabela schedule_imports e verificar a coluna execute_time, nela vai está em segundos quanto tempo o script levou para importar o arquivo.
+
+**Funcionalidade envio de E-mails**
+
+- Sobre o envio de e-mails que é uma das funcionalidades utilizamos o Mailtrap, a fim de demonstrar a funcionalidade limitamos o envio em três e-mails para que o Mailtrap não acabe gerando erro ao receber muitas chamadas.
+- Para torar segura a geração do boleto, criamos a criptografia por chave secreta do identificador do cliente que é passado na rota e validado no backend para descifrar e buscar o cliente, em caso de não existir retorna um erro.
+
+**Funcionalidade geração de boletos**
+
+Para gerar os boletos, decidir fazer por demanda. Assim não preciso criar uma novo agendamento consumindo recursos da máquina.
+
+Dentro do e-mail existe um link para o cliente acessar seu boleto e é nesse momento que o boleto é gerado com todas as informações necessárias para gerá-lo
+
+## Pontos de melhorias do projeto
+
+- Permitir que ao gerar boletos as configurações possam ser definidas pelo administrador do sistema
+- Criar tokens de autenticação da aplicação frontend para o backend
+- Caso inserir novas informações no template do e-mail, criptografar as informações importantes para garantir a segurança delas 
+
+## Bibliotecas utilizadas
+
+- Laravel boleto: https://github.com/eduardokum/laravel-boleto
+
+Usada para gerar todos os boletos dentro da plataforma de forma simples e eficiente.
+
+- League CSV: https://csv.thephpleague.com/
+
+A melhor biblioteca para leitura de arquivos .csv de forma simples e eficiente
